@@ -1,0 +1,10 @@
+{
+  "consultado_utc": "2026-11-26T13:19:46.134100+00:00",
+  "fuente": "https://www.datos.gov.co/resource/wns8-p38i.json",
+  "filtro": "cod_eve = '100' AND ano in ('2022','2023','2024')",
+  "totales": {
+    "2022": 5628,
+    "2023": 6231,
+    "2024": 5787
+  }
+}
