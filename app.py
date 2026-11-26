@@ -73,7 +73,7 @@ data_field = 'cod_dpto_o' if is_national else 'cod_mun_o'
 if not is_national:
     geo['features'] = [f for f in geo['features'] if f['properties']['divipola_dep']==dep and (mun=='Todos' or f['properties']['divipola_mun']==mun)]
 counts = filtered.groupby(data_field).casos.sum().to_dict()
-scale = LinearColormap(['#d5eee3','#65b99b','#19836f','#084b43'],vmin=0,vmax=max(max(counts.values(),default=1),1),caption=f'Casos acumulados · {period}')
+scale = LinearColormap(['#eae6de','#b7926a','#1B1319'],vmin=0,vmax=max(max(counts.values(),default=1),1),caption=f'Casos acumulados · {period}')
 for f in geo['features']:
     p = f['properties']
     p['casos'] = counts.get(p[code_field])
@@ -83,7 +83,7 @@ map_col,detail_col = st.columns([2.2,1])
 with map_col:
     if geo['features']:
         m = folium.Map(location=[4.5,-73.5],zoom_start=5,tiles='OpenStreetMap',control_scale=True)
-        layer = folium.GeoJson(geo,name='Casos notificados',style_function=lambda f:{'fillColor':'#dce2e1' if f['properties']['casos'] is None else scale(f['properties']['casos']), 'color':'#ffffff','weight':1,'fillOpacity':0.83},highlight_function=lambda f:{'weight':3,'color':'#173b35'},tooltip=folium.GeoJsonTooltip(fields=['nombre','detalle'],aliases=['Territorio','Casos'],sticky=False),popup=folium.GeoJsonPopup(fields=['nombre','detalle'],aliases=['Territorio','Casos'])).add_to(m)
+        layer = folium.GeoJson(geo,name='Casos notificados',style_function=lambda f:{'fillColor':'#dce2e1' if f['properties']['casos'] is None else scale(f['properties']['casos']), 'color':'#FFFFFF','weight':1,'fillOpacity':0.83},highlight_function=lambda f:{'weight':3,'color':'#1b1c1b'},tooltip=folium.GeoJsonTooltip(fields=['nombre','detalle'],aliases=['Territorio','Casos'],sticky=False),popup=folium.GeoJsonPopup(fields=['nombre','detalle'],aliases=['Territorio','Casos'])).add_to(m)
         m.fit_bounds(layer.get_bounds(),padding=[15,15])
         scale.add_to(m)
         st.iframe(m.get_root().render(),height=530)
@@ -98,7 +98,7 @@ with detail_col:
     st.markdown('#### Comparación anual')
     annual = filtered.groupby('ano').casos.sum().reindex(years)
     annual.index = annual.index.astype(str)
-    st.bar_chart(annual.rename('Casos'),color='#19836f',height=260)
+    st.bar_chart(annual.rename('Casos'),color='#b7926a',height=260)
     st.markdown('#### Cómo leer el mapa')
     st.write('El color representa el número de casos notificados por lugar de ocurrencia. Un color más intenso indica más casos.')
     st.write('Son conteos absolutos, no tasas de incidencia ni una medida del riesgo individual. La ausencia de registros no demuestra ausencia de accidentes o de serpientes.')
